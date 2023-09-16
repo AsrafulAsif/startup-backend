@@ -1,6 +1,6 @@
 package com.example.startup.startup.utils;
 
-import com.example.startup.startup.dto.response.SimpleResponseRest;
+import com.example.startup.startup.model.response.SimpleResponseRest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 

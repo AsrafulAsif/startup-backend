@@ -2,8 +2,8 @@ package com.example.startup.startup.exception.handler;
 
 
 
-import com.example.startup.startup.dto.response.SimpleResponseRest;
-import com.example.startup.startup.dto.response.error.InvalidInputErrorResponse;
+import com.example.startup.startup.model.response.SimpleResponseRest;
+import com.example.startup.startup.model.response.error.InvalidInputErrorResponse;
 import com.example.startup.startup.exception.BadRequestException;
 import com.example.startup.startup.exception.NotFoundException;
 import org.springframework.http.HttpStatus;

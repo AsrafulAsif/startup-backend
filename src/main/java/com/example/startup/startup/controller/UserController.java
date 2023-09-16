@@ -1,29 +1,36 @@
 package com.example.startup.startup.controller;
 
-import com.example.startup.startup.dto.Asif;
+import com.example.startup.startup.model.request.AppUserRegisterRequestRest;
+import com.example.startup.startup.model.response.AppUserResponse;
+import com.example.startup.startup.model.response.AppUserResponseRest;
+import com.example.startup.startup.model.response.SimpleResponseRest;
+import com.example.startup.startup.service.UserService;
+import com.example.startup.startup.utils.MakingResponse;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("api/v1/user")
 public class UserController {
-    final MongoTemplate mongoTemplate;
+
+    private final UserService userService;
 
     @Autowired
-    public UserController(MongoTemplate mongoTemplate) {
-        this.mongoTemplate = mongoTemplate;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
-    @GetMapping
-    public ResponseEntity<String> postValue(){
-        Asif asif = new Asif();
-        asif.setName("asif");
-        mongoTemplate.save(asif,"aa");
-        return new ResponseEntity<>("Done", HttpStatus.OK);
+    @PostMapping("/register")
+    ResponseEntity<SimpleResponseRest> registerAppUser(
+            @Valid @RequestBody AppUserRegisterRequestRest request
+    ){
+        AppUserResponseRest response = userService.registerAppUser(request);
+        return MakingResponse.makingResponse(response);
     }
+
 }

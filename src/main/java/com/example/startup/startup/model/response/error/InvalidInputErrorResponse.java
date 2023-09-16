@@ -1,4 +1,4 @@
-package com.example.startup.startup.dto.response.error;
+package com.example.startup.startup.model.response.error;
 
 
 
