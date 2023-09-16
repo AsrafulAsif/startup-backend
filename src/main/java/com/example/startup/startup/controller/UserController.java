@@ -1,5 +1,6 @@
 package com.example.startup.startup.controller;
 
+import com.example.startup.startup.model.request.AppUserLoginRequestRest;
 import com.example.startup.startup.model.request.AppUserRegisterRequestRest;
 import com.example.startup.startup.model.response.AppUserResponse;
 import com.example.startup.startup.model.response.AppUserResponseRest;
@@ -30,6 +31,14 @@ public class UserController {
             @Valid @RequestBody AppUserRegisterRequestRest request
     ){
         AppUserResponseRest response = userService.registerAppUser(request);
+        return MakingResponse.makingResponse(response);
+    }
+
+    @PostMapping("/login")
+    ResponseEntity<SimpleResponseRest> loginAppUser(
+            @Valid @RequestBody AppUserLoginRequestRest request
+    ){
+        AppUserResponseRest response = userService.logInAppUser(request);
         return MakingResponse.makingResponse(response);
     }
 

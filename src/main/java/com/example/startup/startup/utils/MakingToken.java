@@ -1,9 +1,9 @@
 package com.example.startup.startup.utils;
 
 
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.example.startup.startup.exception.UnAuthorizeException;
+import com.example.startup.startup.model.ClientInfo;
+import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ public class MakingToken {
         JwtBuilder builder = Jwts.builder()
                 .setId(id)
                 .setIssuer(issuer)
-                .claim("name", userName)
+                .claim("userName", userName)
                 .claim("mobileNumber", mobileNumber)
                 .claim("status", status)
                 .signWith(SignatureAlgorithm.HS256, jwtKey);
@@ -34,6 +34,28 @@ public class MakingToken {
         }
 
         return builder.compact();
+    }
+
+    public ClientInfo verifyTokenWithInfo(String authorization) {
+        if ( authorization == null ) throw new UnAuthorizeException("No token");
+        String[] splitAuthorization = authorization.split(" ");
+        if ( splitAuthorization.length < 2 ) throw new UnAuthorizeException("Bad token format");
+        String token = splitAuthorization[1];
+        ClientInfo clientInfo = new ClientInfo();
+        try {
+            Claims body = Jwts.parser()
+                    .setSigningKey(jwtKey)
+                    .parseClaimsJws(token)
+                    .getBody();
+            clientInfo.id = body.getId();
+            clientInfo.userName= (String) body.get("userName");
+            clientInfo.mobileNumber = (String) body.get("mobileNumber");
+            clientInfo.status = (Boolean) body.get("status");
+            if (!clientInfo.status) throw new UnAuthorizeException("You are no longer our member.");
+            return clientInfo;
+        } catch (Exception e) {
+            throw new UnAuthorizeException("Bad token");
+        }
     }
 
 

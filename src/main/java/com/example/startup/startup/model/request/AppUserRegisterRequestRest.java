@@ -1,5 +1,6 @@
 package com.example.startup.startup.model.request;
 
+import com.example.startup.startup.model.enums.DeviceType;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
@@ -9,9 +10,6 @@ public class AppUserRegisterRequestRest {
     @NotEmpty(message = "User name can not be empty.")
     @Size(min = 4,message = "User name must be contains 4 character.")
     private String userName;
-    @NotNull(message = "Full name required.")
-    @NotEmpty(message = "Full name can not be empty.")
-    private String fullName;
     @NotNull(message = "Mobile number required.")
     @NotEmpty(message = "Mobile number can not be empty.")
     @Size(min = 11,message = "Invalid phone number.")
@@ -24,5 +22,5 @@ public class AppUserRegisterRequestRest {
     @NotNull(message = "FCM token required.")
     @NotEmpty(message = "FCM token can not be empty.")
     private String fcmToken;
-    private String deviceType;
+    private DeviceType deviceType;
 }

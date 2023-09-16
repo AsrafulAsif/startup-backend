@@ -2,11 +2,13 @@ package com.example.startup.startup.exception.handler;
 
 
 
+import com.example.startup.startup.exception.UnAuthorizeException;
 import com.example.startup.startup.model.response.SimpleResponseRest;
 import com.example.startup.startup.model.response.error.InvalidInputErrorResponse;
 import com.example.startup.startup.exception.BadRequestException;
 import com.example.startup.startup.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -49,6 +51,13 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResponseEntity<SimpleResponseRest> handleNotFoundException(Exception e) {
         return new ResponseEntity<>(new SimpleResponseRest(e.getMessage(), HttpStatus.NOT_FOUND.value()),HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(UnAuthorizeException.class)
+    @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
+    @ResponseBody
+    public ResponseEntity<SimpleResponseRest> handleUnAuthorizeException(Exception e) {
+        return new ResponseEntity<>(new SimpleResponseRest(e.getMessage(), HttpStatus.UNAUTHORIZED.value()), HttpStatus.UNAUTHORIZED);
     }
 
 }
