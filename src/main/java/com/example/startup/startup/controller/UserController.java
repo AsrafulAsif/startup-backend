@@ -2,7 +2,6 @@ package com.example.startup.startup.controller;
 
 import com.example.startup.startup.model.request.AppUserLoginRequestRest;
 import com.example.startup.startup.model.request.AppUserRegisterRequestRest;
-import com.example.startup.startup.model.response.AppUserResponse;
 import com.example.startup.startup.model.response.AppUserResponseRest;
 import com.example.startup.startup.model.response.SimpleResponseRest;
 import com.example.startup.startup.service.UserService;

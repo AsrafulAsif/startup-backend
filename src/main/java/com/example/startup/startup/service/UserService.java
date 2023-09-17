@@ -68,4 +68,8 @@ public class UserService {
         }
         return response;
     }
+
+    public AppUser findById(String appUserId){
+        return userRepository.findById(appUserId).orElseThrow(()->new BadRequestException("User not found."));
+    }
 }

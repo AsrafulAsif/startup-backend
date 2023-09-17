@@ -30,5 +30,5 @@ public class AppUser{
     private Date createdAt;
     private Date updatedAt;
     private Date lastLoginAt;
-    private ClientInfo admin;
+    private ClientInfo updatedBy;
 }
