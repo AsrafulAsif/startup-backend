@@ -7,6 +7,8 @@ import com.example.startup.startup.exception.BadRequestException;
 import com.example.startup.startup.model.ClientInfo;
 import com.example.startup.startup.model.request.AddUserDetailsRequestRest;
 import com.example.startup.startup.model.request.UpdateUserDetailsRequestRest;
+import com.example.startup.startup.model.response.AppUserDetailsResponse;
+import com.example.startup.startup.model.response.AppUserDetailsResponseRest;
 import com.example.startup.startup.repository.UserDetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,8 @@ public class UserDetailsService {
         this.userService = userService;
         this.userDetailsRepository = userDetailsRepository;
     }
+
+
 
     public void addUserDetails(AddUserDetailsRequestRest request, ClientInfo appUser){
         AppUser checkUser = userService.findById(appUser.id);
@@ -48,7 +52,7 @@ public class UserDetailsService {
         AppUserDetails appUserDetails = userDetailsRepository
                 .findByIdAndAppUserId(request.getId(),appUser.id);
 
-        if (appUserDetails == null) throw new BadRequestException("Profile details not found");
+        if (appUserDetails == null) throw new BadRequestException("Profile details not found.");
 
         appUserDetails.setFullName(request.getFullName()==null ? appUserDetails.getFullName() : request.getFullName());
         appUserDetails.setGender(request.getGender()== null?appUserDetails.getGender():request.getGender());
@@ -59,5 +63,14 @@ public class UserDetailsService {
         appUserDetails.setUpdatedAt(new Date(System.currentTimeMillis()));
         appUserDetails.setUpdatedBy(appUser);
         userDetailsRepository.save(appUserDetails);
+    }
+
+    public AppUserDetailsResponseRest getUserDetails(ClientInfo appUser){
+        AppUserDetails appUserDetails = userDetailsRepository.findByAppUserId(appUser.id);
+        if (appUserDetails==null) throw new BadRequestException("Profile details not found.");
+        AppUserDetailsResponse appUserDetailsResponse = new AppUserDetailsResponse(appUserDetails);
+        AppUserDetailsResponseRest responseRest = new AppUserDetailsResponseRest();
+        responseRest.setUserDetails(appUserDetailsResponse);
+        return responseRest;
     }
 }

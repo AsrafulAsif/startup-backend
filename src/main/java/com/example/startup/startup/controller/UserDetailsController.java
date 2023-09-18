@@ -4,6 +4,7 @@ package com.example.startup.startup.controller;
 import com.example.startup.startup.model.ClientInfo;
 import com.example.startup.startup.model.request.AddUserDetailsRequestRest;
 import com.example.startup.startup.model.request.UpdateUserDetailsRequestRest;
+import com.example.startup.startup.model.response.AppUserDetailsResponseRest;
 import com.example.startup.startup.model.response.SimpleResponseRest;
 import com.example.startup.startup.service.UserDetailsService;
 import com.example.startup.startup.utils.MakingResponse;
@@ -24,6 +25,15 @@ public class UserDetailsController {
     public UserDetailsController(UserDetailsService userDetailsService, MakingToken makingToken) {
         this.userDetailsService = userDetailsService;
         this.makingToken = makingToken;
+    }
+
+    @GetMapping
+    ResponseEntity<SimpleResponseRest> getProfile(
+            @RequestHeader(value = "Authorization") String authorization
+    ){
+        ClientInfo appUser = makingToken.verifyTokenWithInfo(authorization);
+        AppUserDetailsResponseRest response = userDetailsService.getUserDetails(appUser);
+        return MakingResponse.makingResponse(response);
     }
 
     @PostMapping()

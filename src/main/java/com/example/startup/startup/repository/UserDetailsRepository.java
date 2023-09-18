@@ -1,6 +1,7 @@
 package com.example.startup.startup.repository;
 
 import com.example.startup.startup.entity.AppUserDetails;
+import com.example.startup.startup.model.response.AppUserDetailsResponse;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface UserDetailsRepository extends MongoRepository<AppUserDetails,String> {
