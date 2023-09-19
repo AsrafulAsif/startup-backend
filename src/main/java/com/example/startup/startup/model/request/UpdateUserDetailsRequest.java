@@ -6,14 +6,14 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class AddUserDetailsRequestRest {
-    @NotNull(message = "Full name required.")
-    @NotEmpty(message = "Full name can not be empty.")
+public class UpdateUserDetailsRequest {
+    @NotNull(message = "Id can not be null")
+    @NotEmpty(message ="Please provide Id.")
+    private String id;
     private String fullName;
-    @NotNull(message = "Gender required.")
-    @NotEmpty(message = "Gender can not be empty.")
     private Gender gender;
     private String email;
     private String address;
+    private Boolean isActive;
     private String profilePicture;
 }

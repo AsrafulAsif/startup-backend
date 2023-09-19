@@ -2,8 +2,8 @@ package com.example.startup.startup.controller;
 
 
 import com.example.startup.startup.model.ClientInfo;
-import com.example.startup.startup.model.request.AddUserDetailsRequestRest;
-import com.example.startup.startup.model.request.UpdateUserDetailsRequestRest;
+import com.example.startup.startup.model.request.AddUserDetailsRequest;
+import com.example.startup.startup.model.request.UpdateUserDetailsRequest;
 import com.example.startup.startup.model.response.AppUserDetailsResponseRest;
 import com.example.startup.startup.model.response.SimpleResponseRest;
 import com.example.startup.startup.service.UserDetailsService;
@@ -39,7 +39,7 @@ public class UserDetailsController {
     @PostMapping()
     ResponseEntity<SimpleResponseRest> addProfile(
             @RequestHeader(value = "Authorization") String authorization,
-            @Valid @RequestBody AddUserDetailsRequestRest request
+            @Valid @RequestBody AddUserDetailsRequest request
     ){
         ClientInfo appUser = makingToken.verifyTokenWithInfo(authorization);
         SimpleResponseRest response = new SimpleResponseRest();
@@ -50,7 +50,7 @@ public class UserDetailsController {
     @PutMapping()
     ResponseEntity<SimpleResponseRest> updateProfile(
             @RequestHeader(value = "Authorization") String authorization,
-            @Valid @RequestBody UpdateUserDetailsRequestRest request
+            @Valid @RequestBody UpdateUserDetailsRequest request
     ){
         ClientInfo appUser = makingToken.verifyTokenWithInfo(authorization);
         SimpleResponseRest response = new SimpleResponseRest();

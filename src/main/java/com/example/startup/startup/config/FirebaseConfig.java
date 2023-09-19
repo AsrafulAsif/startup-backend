@@ -22,6 +22,13 @@ public class FirebaseConfig {
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(googleCredentials)
                 .build();
-        return FirebaseApp.initializeApp(options);
+        if(FirebaseApp.getApps().isEmpty()) {
+            return FirebaseApp.initializeApp(options,"StartUp");
+        }else {
+            //return FirebaseApp.getApps().get(0);//if we dont give any name ,then it will take a default firebase
+            //name then we can take arrays first one
+            return FirebaseApp.getInstance("StartUp");
+            //when we give a name then we can get
+        }
     }
 }

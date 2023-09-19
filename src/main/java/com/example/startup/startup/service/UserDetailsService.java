@@ -5,8 +5,8 @@ import com.example.startup.startup.entity.AppUser;
 import com.example.startup.startup.entity.AppUserDetails;
 import com.example.startup.startup.exception.BadRequestException;
 import com.example.startup.startup.model.ClientInfo;
-import com.example.startup.startup.model.request.AddUserDetailsRequestRest;
-import com.example.startup.startup.model.request.UpdateUserDetailsRequestRest;
+import com.example.startup.startup.model.request.AddUserDetailsRequest;
+import com.example.startup.startup.model.request.UpdateUserDetailsRequest;
 import com.example.startup.startup.model.response.AppUserDetailsResponse;
 import com.example.startup.startup.model.response.AppUserDetailsResponseRest;
 import com.example.startup.startup.repository.UserDetailsRepository;
@@ -28,7 +28,7 @@ public class UserDetailsService {
 
 
 
-    public void addUserDetails(AddUserDetailsRequestRest request, ClientInfo appUser){
+    public void addUserDetails(AddUserDetailsRequest request, ClientInfo appUser){
         AppUser checkUser = userService.findById(appUser.id);
         AppUserDetails appUserDetails = userDetailsRepository.findByAppUserId(appUser.id);
         if (appUserDetails!=null) throw new BadRequestException("You already added your profile details.");
@@ -48,7 +48,7 @@ public class UserDetailsService {
         userDetailsRepository.save(appUserDetails);
     }
 
-    public void updateUserDetails(UpdateUserDetailsRequestRest request, ClientInfo appUser){
+    public void updateUserDetails(UpdateUserDetailsRequest request, ClientInfo appUser){
         AppUserDetails appUserDetails = userDetailsRepository
                 .findByIdAndAppUserId(request.getId(),appUser.id);
 

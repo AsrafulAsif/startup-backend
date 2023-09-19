@@ -3,8 +3,8 @@ package com.example.startup.startup.service;
 import com.example.startup.startup.entity.AppUser;
 import com.example.startup.startup.exception.BadRequestException;
 import com.example.startup.startup.exception.UnAuthorizeException;
-import com.example.startup.startup.model.request.AppUserLoginRequestRest;
-import com.example.startup.startup.model.request.AppUserRegisterRequestRest;
+import com.example.startup.startup.model.request.AppUserLoginRequest;
+import com.example.startup.startup.model.request.AppUserRegisterRequest;
 import com.example.startup.startup.model.response.AppUserResponse;
 import com.example.startup.startup.model.response.AppUserResponseRest;
 import com.example.startup.startup.repository.UserRepository;
@@ -27,7 +27,7 @@ public class UserService {
         this.makingToken = makingToken;
     }
 
-    public AppUserResponseRest registerAppUser(AppUserRegisterRequestRest request){
+    public AppUserResponseRest registerAppUser(AppUserRegisterRequest request){
         AppUser appUser =  userRepository.findByUserNameAndMobileNumber(request.getUserName(),request.getPhoneNumber());
         if (appUser!=null) throw new BadRequestException("You already have an account.");
 
@@ -52,7 +52,7 @@ public class UserService {
     }
 
 
-    public AppUserResponseRest logInAppUser(AppUserLoginRequestRest request){
+    public AppUserResponseRest logInAppUser(AppUserLoginRequest request){
         AppUser appUser =  userRepository.findByMobileNumber(request.getMobileNumber());
         if (appUser==null) throw new BadRequestException("You don't have an account.");
         AppUserResponseRest response = new AppUserResponseRest();

@@ -5,7 +5,7 @@ import jakarta.validation.constraints.*;
 import lombok.Data;
 
 @Data
-public class AppUserRegisterRequestRest {
+public class AppUserRegisterRequest {
     @NotNull(message = "User name required.")
     @NotEmpty(message = "User name can not be empty.")
     @Size(min = 4,message = "User name must be contains 4 character.")

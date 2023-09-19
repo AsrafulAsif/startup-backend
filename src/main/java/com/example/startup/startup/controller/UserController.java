@@ -1,7 +1,7 @@
 package com.example.startup.startup.controller;
 
-import com.example.startup.startup.model.request.AppUserLoginRequestRest;
-import com.example.startup.startup.model.request.AppUserRegisterRequestRest;
+import com.example.startup.startup.model.request.AppUserLoginRequest;
+import com.example.startup.startup.model.request.AppUserRegisterRequest;
 import com.example.startup.startup.model.response.AppUserResponseRest;
 import com.example.startup.startup.model.response.SimpleResponseRest;
 import com.example.startup.startup.service.UserService;
@@ -27,7 +27,7 @@ public class UserController {
 
     @PostMapping("/register")
     ResponseEntity<SimpleResponseRest> registerAppUser(
-            @Valid @RequestBody AppUserRegisterRequestRest request
+            @Valid @RequestBody AppUserRegisterRequest request
     ){
         AppUserResponseRest response = userService.registerAppUser(request);
         return MakingResponse.makingResponse(response);
@@ -35,7 +35,7 @@ public class UserController {
 
     @PostMapping("/login")
     ResponseEntity<SimpleResponseRest> loginAppUser(
-            @Valid @RequestBody AppUserLoginRequestRest request
+            @Valid @RequestBody AppUserLoginRequest request
     ){
         AppUserResponseRest response = userService.logInAppUser(request);
         return MakingResponse.makingResponse(response);
