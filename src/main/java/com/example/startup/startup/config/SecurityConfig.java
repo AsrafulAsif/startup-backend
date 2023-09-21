@@ -19,6 +19,8 @@ public class SecurityConfig {
                         .permitAll()
                         .requestMatchers("api/v1/user/**")
                         .permitAll()
+                        .requestMatchers("api/v1/user-details/**")
+                        .permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
