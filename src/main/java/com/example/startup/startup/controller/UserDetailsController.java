@@ -1,17 +1,17 @@
 package com.example.startup.startup.controller;
 
 
-import com.example.startup.startup.model.ClientInfo;
+import com.example.startup.startup.config.springSecurity.CustomUserDetails;
 import com.example.startup.startup.model.request.AddUserDetailsRequest;
 import com.example.startup.startup.model.request.UpdateUserDetailsRequest;
 import com.example.startup.startup.model.response.AppUserDetailsResponseRest;
 import com.example.startup.startup.model.response.SimpleResponseRest;
 import com.example.startup.startup.service.UserDetailsService;
 import com.example.startup.startup.utils.MakingResponse;
-import com.example.startup.startup.utils.MakingToken;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,42 +19,38 @@ import org.springframework.web.bind.annotation.*;
 public class UserDetailsController {
 
     private final UserDetailsService userDetailsService;
-    private final MakingToken makingToken;
+
 
     @Autowired
-    public UserDetailsController(UserDetailsService userDetailsService, MakingToken makingToken) {
+    public UserDetailsController(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
-        this.makingToken = makingToken;
     }
 
     @GetMapping
     ResponseEntity<SimpleResponseRest> getProfile(
-            @RequestHeader(value = "Authorization") String authorization
-    ){
-        ClientInfo appUser = makingToken.verifyTokenWithInfo(authorization);
-        AppUserDetailsResponseRest response = userDetailsService.getUserDetails(appUser);
+            @AuthenticationPrincipal CustomUserDetails userDetails
+            ){
+        AppUserDetailsResponseRest response = userDetailsService.getUserDetails(userDetails);
         return MakingResponse.makingResponse(response);
     }
 
     @PostMapping()
     ResponseEntity<SimpleResponseRest> addProfile(
-            @RequestHeader(value = "Authorization") String authorization,
+            @AuthenticationPrincipal CustomUserDetails userDetails,
             @Valid @RequestBody AddUserDetailsRequest request
     ){
-        ClientInfo appUser = makingToken.verifyTokenWithInfo(authorization);
         SimpleResponseRest response = new SimpleResponseRest();
-        userDetailsService.addUserDetails(request,appUser);
+        userDetailsService.addUserDetails(request,userDetails);
         return MakingResponse.makingResponse(response);
     }
 
     @PutMapping()
     ResponseEntity<SimpleResponseRest> updateProfile(
-            @RequestHeader(value = "Authorization") String authorization,
+            @AuthenticationPrincipal CustomUserDetails userDetails,
             @Valid @RequestBody UpdateUserDetailsRequest request
     ){
-        ClientInfo appUser = makingToken.verifyTokenWithInfo(authorization);
         SimpleResponseRest response = new SimpleResponseRest();
-        userDetailsService.updateUserDetails(request,appUser);
+        userDetailsService.updateUserDetails(request,userDetails);
         return MakingResponse.makingResponse(response);
     }
 }

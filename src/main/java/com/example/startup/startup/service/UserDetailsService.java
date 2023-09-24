@@ -1,10 +1,10 @@
 package com.example.startup.startup.service;
 
 
+import com.example.startup.startup.config.springSecurity.CustomUserDetails;
 import com.example.startup.startup.entity.AppUser;
 import com.example.startup.startup.entity.AppUserDetails;
 import com.example.startup.startup.exception.BadRequestException;
-import com.example.startup.startup.model.ClientInfo;
 import com.example.startup.startup.model.request.AddUserDetailsRequest;
 import com.example.startup.startup.model.request.UpdateUserDetailsRequest;
 import com.example.startup.startup.model.response.AppUserDetailsResponse;
@@ -28,9 +28,9 @@ public class UserDetailsService {
 
 
 
-    public void addUserDetails(AddUserDetailsRequest request, ClientInfo appUser){
-        AppUser checkUser = userService.findById(appUser.id);
-        AppUserDetails appUserDetails = userDetailsRepository.findByAppUserId(appUser.id);
+    public void addUserDetails(AddUserDetailsRequest request, CustomUserDetails appUser){
+        AppUser checkUser = userService.findById(appUser.getId());
+        AppUserDetails appUserDetails = userDetailsRepository.findByAppUserId(appUser.getId());
         if (appUserDetails!=null) throw new BadRequestException("You already added your profile details.");
         appUserDetails = AppUserDetails.builder()
                 .appUserId(checkUser.getId())
@@ -48,9 +48,9 @@ public class UserDetailsService {
         userDetailsRepository.save(appUserDetails);
     }
 
-    public void updateUserDetails(UpdateUserDetailsRequest request, ClientInfo appUser){
+    public void updateUserDetails(UpdateUserDetailsRequest request, CustomUserDetails appUser){
         AppUserDetails appUserDetails = userDetailsRepository
-                .findByIdAndAppUserId(request.getId(),appUser.id);
+                .findByIdAndAppUserId(request.getId(),appUser.getId());
 
         if (appUserDetails == null) throw new BadRequestException("Profile details not found.");
 
@@ -65,8 +65,8 @@ public class UserDetailsService {
         userDetailsRepository.save(appUserDetails);
     }
 
-    public AppUserDetailsResponseRest getUserDetails(ClientInfo appUser){
-        AppUserDetails appUserDetails = userDetailsRepository.findByAppUserId(appUser.id);
+    public AppUserDetailsResponseRest getUserDetails(CustomUserDetails appUser){
+        AppUserDetails appUserDetails = userDetailsRepository.findByAppUserId(appUser.getId());
         if (appUserDetails==null) throw new BadRequestException("Profile details not found.");
         AppUserDetailsResponse appUserDetailsResponse = new AppUserDetailsResponse(appUserDetails);
         AppUserDetailsResponseRest responseRest = new AppUserDetailsResponseRest();

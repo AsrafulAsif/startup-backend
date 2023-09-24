@@ -1,6 +1,6 @@
 package com.example.startup.startup.entity;
 
-import com.example.startup.startup.model.ClientInfo;
+import com.example.startup.startup.config.springSecurity.CustomUserDetails;
 import com.example.startup.startup.model.enums.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,7 +29,7 @@ public class AppUserDetails {
     private Boolean setUp;
     private Boolean isActive;
     private Date createdAt;
-    private ClientInfo createdBy;
+    private CustomUserDetails createdBy;
     private Date updatedAt;
-    private ClientInfo updatedBy;
+    private CustomUserDetails updatedBy;
 }

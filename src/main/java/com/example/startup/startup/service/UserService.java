@@ -9,7 +9,6 @@ import com.example.startup.startup.model.response.AppUserResponse;
 import com.example.startup.startup.model.response.AppUserResponseRest;
 import com.example.startup.startup.repository.UserRepository;
 import com.example.startup.startup.utils.MakingPasswordHash;
-import com.example.startup.startup.utils.MakingToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
@@ -20,11 +19,11 @@ import java.util.Date;
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private final MakingToken makingToken;
+    private final JwtTokenService jwtTokenService;
     @Autowired
-    public UserService(UserRepository userRepository, MakingToken makingToken) {
+    public UserService(UserRepository userRepository, JwtTokenService jwtTokenService) {
         this.userRepository = userRepository;
-        this.makingToken = makingToken;
+        this.jwtTokenService = jwtTokenService;
     }
 
     public AppUserResponseRest registerAppUser(AppUserRegisterRequest request){
@@ -44,7 +43,7 @@ public class UserService {
         userRepository.save(appUser);
         AppUserResponse appUserResponse = new AppUserResponse();
         appUserResponse.setStatus(true);
-        appUserResponse.setAuthorizationToken(makingToken.generateJwtTokenWithInfo("User",appUser.getId(),appUser.getUserName(),appUser.getMobileNumber(),true));
+        appUserResponse.setAuthorizationToken(jwtTokenService.generateJwtTokenWithInfo("User",appUser.getId(),appUser.getUserName(),appUser.getMobileNumber(),true));
 
         AppUserResponseRest response = new AppUserResponseRest();
         response.setResponse(appUserResponse);
@@ -59,7 +58,7 @@ public class UserService {
         if (BCrypt.checkpw(request.getAppPassword(),appUser.getAppPassword())){
             AppUserResponse appUserResponse = new AppUserResponse();
             appUserResponse.setStatus(appUser.getStatus());
-            appUserResponse.setAuthorizationToken(makingToken.generateJwtTokenWithInfo("User",appUser.getId(),appUser.getUserName(),appUser.getMobileNumber(),appUser.getStatus()));
+            appUserResponse.setAuthorizationToken(jwtTokenService.generateJwtTokenWithInfo("User",appUser.getId(),appUser.getUserName(),appUser.getMobileNumber(),appUser.getStatus()));
             response.setResponse(appUserResponse);
             appUser.setLastLoginAt(new Date(System.currentTimeMillis()));
             userRepository.save(appUser);

@@ -2,14 +2,17 @@ package com.example.startup.startup.exception.handler;
 
 
 
+import com.example.startup.startup.exception.AccessForbiddenException;
 import com.example.startup.startup.exception.UnAuthorizeException;
 import com.example.startup.startup.model.response.SimpleResponseRest;
 import com.example.startup.startup.model.response.error.InvalidInputErrorResponse;
 import com.example.startup.startup.exception.BadRequestException;
 import com.example.startup.startup.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -58,6 +61,37 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResponseEntity<SimpleResponseRest> handleUnAuthorizeException(Exception e) {
         return new ResponseEntity<>(new SimpleResponseRest(e.getMessage(), HttpStatus.UNAUTHORIZED.value()), HttpStatus.UNAUTHORIZED);
+    }
+
+
+    @ExceptionHandler(AccessForbiddenException.class)
+    @ResponseStatus(value = HttpStatus.FORBIDDEN)
+    @ResponseBody
+    public ResponseEntity<SimpleResponseRest> handleAccessForbiddenException(Exception e) {
+       return new ResponseEntity<>(new SimpleResponseRest(e.getMessage(), HttpStatus.FORBIDDEN.value()), HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(value = HttpStatus.FORBIDDEN)
+    @ResponseBody
+    public ResponseEntity<SimpleResponseRest> handleAccessDeniedException(Exception e) {
+        return new ResponseEntity<>(new SimpleResponseRest(e.getMessage(), HttpStatus.FORBIDDEN.value()), HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    @ResponseStatus(value = HttpStatus.FORBIDDEN)
+    @ResponseBody
+    public ResponseEntity<SimpleResponseRest> handleAuthenticationException(Exception e) {
+        return new ResponseEntity<>(new SimpleResponseRest(e.getMessage(), HttpStatus.FORBIDDEN.value()), HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ResponseEntity<SimpleResponseRest> handleUnReadableRequest(HttpMessageNotReadableException e) {
+        String message = "Invalid input: Non numeric value found at numeric field";
+        return new ResponseEntity<>(new SimpleResponseRest(message, HttpStatus.BAD_REQUEST.value()), HttpStatus.BAD_REQUEST);
+
     }
 
 }
