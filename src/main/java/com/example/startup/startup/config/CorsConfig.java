@@ -18,17 +18,15 @@ public class CorsConfig implements Filter {
 
     private final static org.apache.logging.log4j.Logger log = LogManager.getLogger(CorsConfig.class);
 
-    public CorsConfig() {
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+        Filter.super.init(filterConfig);
     }
 
-
     @Override
-    public void doFilter(ServletRequest request,
-                         ServletResponse response,
-                         FilterChain chain) throws IOException, ServletException {
-
-        HttpServletRequest req = (HttpServletRequest) request;
-        HttpServletResponse res = (HttpServletResponse) response;
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        HttpServletRequest req = (HttpServletRequest) servletRequest;
+        HttpServletResponse res = (HttpServletResponse) servletResponse;
 
         log.info("FROM FILTER URI " + req.getRequestURI());
         log.info("FROM FILTER METHOD " + req.getMethod());
@@ -41,16 +39,13 @@ public class CorsConfig implements Filter {
         if ("OPTIONS".equalsIgnoreCase(req.getMethod())) {
             res.setStatus(HttpServletResponse.SC_OK);
         } else {
-            chain.doFilter(request, response);
+            filterChain.doFilter(servletRequest, servletResponse);
         }
     }
 
     @Override
-    public void init(FilterConfig filterConfig) {
-    }
-
-    @Override
     public void destroy() {
+        Filter.super.destroy();
     }
 }
 

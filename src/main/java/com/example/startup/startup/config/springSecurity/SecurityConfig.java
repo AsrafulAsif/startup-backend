@@ -29,7 +29,10 @@ public class SecurityConfig {
                         .permitAll()
                         .anyRequest().authenticated()
                 )
-                .addFilterBefore(
+                .exceptionHandling((exceptionHandling) ->
+                        exceptionHandling
+                                .authenticationEntryPoint(new RestAuthenticationEntryPoint()));
+                httpSecurity.addFilterBefore(
                         jwtTokenFilter,
                         UsernamePasswordAuthenticationFilter.class
         );

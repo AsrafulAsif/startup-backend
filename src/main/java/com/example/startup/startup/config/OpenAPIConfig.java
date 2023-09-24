@@ -16,7 +16,6 @@ public class OpenAPIConfig {
     @Bean
     public OpenAPI customOpenAPI(){
         return new OpenAPI()
-                .addSecurityItem(new SecurityRequirement().addList("Authorization"))
                 .components(
                         new Components()
                                 .addSecuritySchemes("Authorization",
@@ -27,7 +26,9 @@ public class OpenAPIConfig {
                                                 .bearerFormat("JWT")
                                 )
                 )
-                .info(new Info().title("Asif").version("12"));
+                .info(new Info().title("Start up Backend.").version("v1"));
     }
 
 }
+
+

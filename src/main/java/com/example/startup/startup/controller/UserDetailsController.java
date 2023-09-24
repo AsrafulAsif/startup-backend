@@ -8,6 +8,8 @@ import com.example.startup.startup.model.response.AppUserDetailsResponseRest;
 import com.example.startup.startup.model.response.SimpleResponseRest;
 import com.example.startup.startup.service.UserDetailsService;
 import com.example.startup.startup.utils.MakingResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,7 @@ public class UserDetailsController {
     }
 
     @GetMapping
+    @Operation(summary = "Need Bearer Token." ,security = @SecurityRequirement(name = "Authorization"))
     ResponseEntity<SimpleResponseRest> getProfile(
             @AuthenticationPrincipal CustomUserDetails userDetails
             ){
