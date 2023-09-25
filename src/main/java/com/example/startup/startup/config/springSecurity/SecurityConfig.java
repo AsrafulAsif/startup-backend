@@ -31,8 +31,8 @@ public class SecurityConfig {
                 )
                 .exceptionHandling((exceptionHandling) ->
                         exceptionHandling
-                                .authenticationEntryPoint(new RestAuthenticationEntryPoint()));
-                httpSecurity.addFilterBefore(
+                                .authenticationEntryPoint(new RestAuthenticationEntryPoint()))
+                .addFilterBefore(
                         jwtTokenFilter,
                         UsernamePasswordAuthenticationFilter.class
         );
