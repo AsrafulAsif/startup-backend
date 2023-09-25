@@ -38,6 +38,7 @@ public class UserDetailsController {
     }
 
     @PostMapping()
+    @Operation(summary = "Need Bearer Token." ,security = @SecurityRequirement(name = "Authorization"))
     ResponseEntity<SimpleResponseRest> addProfile(
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @Valid @RequestBody AddUserDetailsRequest request
@@ -48,6 +49,7 @@ public class UserDetailsController {
     }
 
     @PutMapping()
+    @Operation(summary = "Need Bearer Token." ,security = @SecurityRequirement(name = "Authorization"))
     ResponseEntity<SimpleResponseRest> updateProfile(
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @Valid @RequestBody UpdateUserDetailsRequest request
