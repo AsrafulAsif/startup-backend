@@ -20,7 +20,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     private final JwtTokenFilter jwtTokenFilter;
     private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
-    private final RestAccessDeniedHandler restAccessDeniedHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -37,7 +36,6 @@ public class SecurityConfig {
                 )
                 .exceptionHandling((exceptionHandling) ->
                         exceptionHandling
-                                .accessDeniedHandler(restAccessDeniedHandler)
                                 .authenticationEntryPoint(restAuthenticationEntryPoint))
                 .addFilterBefore(
                         jwtTokenFilter,
