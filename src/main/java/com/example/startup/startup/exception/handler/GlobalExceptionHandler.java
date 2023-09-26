@@ -4,10 +4,11 @@ package com.example.startup.startup.exception.handler;
 
 import com.example.startup.startup.exception.AccessForbiddenException;
 import com.example.startup.startup.exception.UnAuthorizeException;
-import com.example.startup.startup.model.response.SimpleResponseRest;
-import com.example.startup.startup.model.response.error.InvalidInputErrorResponse;
+import com.example.startup.startup.model.SimpleResponseRest;
+import com.example.startup.startup.exception.errorResponse.InvalidInputErrorResponse;
 import com.example.startup.startup.exception.BadRequestException;
 import com.example.startup.startup.exception.NotFoundException;
+import jakarta.validation.UnexpectedTypeException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -92,6 +93,12 @@ public class GlobalExceptionHandler {
         String message = "Invalid input: Non numeric value found at numeric field";
         return new ResponseEntity<>(new SimpleResponseRest(message, HttpStatus.BAD_REQUEST.value()), HttpStatus.BAD_REQUEST);
 
+    }
+    @ExceptionHandler(UnexpectedTypeException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ResponseEntity<SimpleResponseRest> handleUnexpectedTypeException(UnexpectedTypeException e) {
+        return new ResponseEntity<>(new SimpleResponseRest(e.getMessage().trim(), HttpStatus.BAD_REQUEST.value()), HttpStatus.BAD_REQUEST);
     }
 
 }
