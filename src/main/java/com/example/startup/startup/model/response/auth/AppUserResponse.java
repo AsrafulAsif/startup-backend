@@ -1,4 +1,4 @@
-package com.example.startup.startup.model.response;
+package com.example.startup.startup.model.response.auth;
 
 import com.example.startup.startup.model.enums.Gender;
 import lombok.Data;

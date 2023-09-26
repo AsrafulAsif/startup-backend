@@ -5,8 +5,8 @@ import com.example.startup.startup.exception.BadRequestException;
 import com.example.startup.startup.exception.UnAuthorizeException;
 import com.example.startup.startup.model.request.AppUserLoginRequest;
 import com.example.startup.startup.model.request.AppUserRegisterRequest;
-import com.example.startup.startup.model.response.AppUserResponse;
-import com.example.startup.startup.model.response.AppUserResponseRest;
+import com.example.startup.startup.model.response.auth.AppUserResponse;
+import com.example.startup.startup.model.response.auth.AppUserResponseRest;
 import com.example.startup.startup.repository.UserRepository;
 import com.example.startup.startup.utils.MakingPasswordHash;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,11 +42,12 @@ public class UserService {
                 .build();
         userRepository.save(appUser);
         AppUserResponse appUserResponse = new AppUserResponse();
+        appUserResponse.setUserName(appUser.getUserName());
         appUserResponse.setStatus(true);
         appUserResponse.setAuthorizationToken(jwtTokenService.generateJwtTokenWithInfo("User",appUser.getId(),appUser.getUserName(),appUser.getMobileNumber(),true));
 
         AppUserResponseRest response = new AppUserResponseRest();
-        response.setResponse(appUserResponse);
+        response.setAuthResponse(appUserResponse);
         return response;
     }
 
@@ -57,9 +58,10 @@ public class UserService {
         AppUserResponseRest response = new AppUserResponseRest();
         if (BCrypt.checkpw(request.getAppPassword(),appUser.getAppPassword())){
             AppUserResponse appUserResponse = new AppUserResponse();
+            appUserResponse.setUserName(appUser.getUserName());
             appUserResponse.setStatus(appUser.getStatus());
             appUserResponse.setAuthorizationToken(jwtTokenService.generateJwtTokenWithInfo("User",appUser.getId(),appUser.getUserName(),appUser.getMobileNumber(),appUser.getStatus()));
-            response.setResponse(appUserResponse);
+            response.setAuthResponse(appUserResponse);
             appUser.setLastLoginAt(new Date(System.currentTimeMillis()));
             userRepository.save(appUser);
         }else {

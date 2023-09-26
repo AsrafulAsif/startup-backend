@@ -1,11 +1,12 @@
-package com.example.startup.startup.controller;
+package com.example.startup.startup.controller.auth;
 
 import com.example.startup.startup.model.request.AppUserLoginRequest;
 import com.example.startup.startup.model.request.AppUserRegisterRequest;
-import com.example.startup.startup.model.response.AppUserResponseRest;
+import com.example.startup.startup.model.response.auth.AppUserResponseRest;
 import com.example.startup.startup.model.response.SimpleResponseRest;
 import com.example.startup.startup.service.UserService;
 import com.example.startup.startup.utils.MakingResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,17 +27,19 @@ public class UserController {
     }
 
     @PostMapping("/register")
+    @Operation(summary = "No need any Bearer Token.")
     ResponseEntity<SimpleResponseRest> registerAppUser(
             @Valid @RequestBody AppUserRegisterRequest request
-    ){
+    ) {
         AppUserResponseRest response = userService.registerAppUser(request);
         return MakingResponse.makingResponse(response);
     }
 
     @PostMapping("/login")
+    @Operation(summary = "No need any Bearer Token.")
     ResponseEntity<SimpleResponseRest> loginAppUser(
             @Valid @RequestBody AppUserLoginRequest request
-    ){
+    ) {
         AppUserResponseRest response = userService.logInAppUser(request);
         return MakingResponse.makingResponse(response);
     }

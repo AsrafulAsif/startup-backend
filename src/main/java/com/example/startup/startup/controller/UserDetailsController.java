@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +29,7 @@ public class UserDetailsController {
         this.userDetailsService = userDetailsService;
     }
 
+    @PreAuthorize("@permissionService.hasPermission()")
     @GetMapping
     @Operation(summary = "Need Bearer Token." ,security = @SecurityRequirement(name = "Authorization"))
     ResponseEntity<SimpleResponseRest> getProfile(
