@@ -26,7 +26,6 @@ public class AppUserDetails {
     private String email;
     private String address;
     private String profilePicture;
-    private Boolean setUp;
     private Boolean isActive;
     private Date createdAt;
     private CustomUserDetails createdBy;

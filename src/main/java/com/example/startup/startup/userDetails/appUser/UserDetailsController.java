@@ -28,6 +28,7 @@ public class UserDetailsController {
         this.userDetailsService = userDetailsService;
     }
 
+    @PreAuthorize("@permissionService.hasPermission()")
     @PostMapping()
     @Operation(summary = "Need Bearer Token." ,security = @SecurityRequirement(name = "Authorization"))
     ResponseEntity<SimpleResponseRest> addProfile(
@@ -39,6 +40,7 @@ public class UserDetailsController {
         return MakingResponse.makingResponse(response);
     }
 
+    @PreAuthorize("@permissionService.hasPermission()")
     @PutMapping()
     @Operation(summary = "Need Bearer Token." ,security = @SecurityRequirement(name = "Authorization"))
     ResponseEntity<SimpleResponseRest> updateProfile(

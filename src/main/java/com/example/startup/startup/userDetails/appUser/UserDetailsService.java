@@ -41,7 +41,6 @@ public class UserDetailsService {
                 .email(request.getEmail())
                 .address(request.getAddress())
                 .profilePicture(request.getProfilePicture())
-                .setUp(true)
                 .isActive(true)
                 .createdAt(new Date(System.currentTimeMillis()))
                 .createdBy(appUser)

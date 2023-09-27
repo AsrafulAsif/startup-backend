@@ -14,6 +14,5 @@ public class AppUserDetailsResponse {
         private String email;
         private String address;
         private String profilePicture;
-        private Boolean setUp;
         private Boolean isActive;
 }
