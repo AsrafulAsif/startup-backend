@@ -1,4 +1,4 @@
-package com.example.startup.startup.userDetails.appUser.dto.response;
+package com.example.startup.startup.userDetails.appUser.response;
 
 import com.example.startup.startup.userDetails.appUser.entity.AppUserDetails;
 import com.example.startup.startup.globalEnums.Gender;

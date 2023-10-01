@@ -3,10 +3,10 @@ package com.example.startup.startup.auth.appUser;
 import com.example.startup.startup.auth.appUser.entity.AppUser;
 import com.example.startup.startup.exception.BadRequestException;
 import com.example.startup.startup.exception.UnAuthorizeException;
-import com.example.startup.startup.auth.appUser.dto.request.AppUserLoginRequest;
-import com.example.startup.startup.auth.appUser.dto.request.AppUserRegisterRequest;
-import com.example.startup.startup.auth.appUser.dto.response.AppUserResponse;
-import com.example.startup.startup.auth.appUser.dto.response.AppUserResponseRest;
+import com.example.startup.startup.auth.appUser.request.AppUserLoginRequest;
+import com.example.startup.startup.auth.appUser.request.AppUserRegisterRequest;
+import com.example.startup.startup.auth.appUser.response.AppUserResponse;
+import com.example.startup.startup.auth.appUser.response.AppUserResponseRest;
 import com.example.startup.startup.springSecurity.service.JwtTokenService;
 import com.example.startup.startup.utils.MakingPasswordHash;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +27,13 @@ public class UserService {
     }
 
     public AppUserResponseRest registerAppUser(AppUserRegisterRequest request){
-        AppUser appUser =  userRepository.findByUserNameAndMobileNumber(request.getUserName(),request.getPhoneNumber());
+        AppUser appUser =  userRepository.findByMobileNumber(request.getPhoneNumber());
         if (appUser!=null) throw new BadRequestException("You already have an account.");
 
         appUser = AppUser.builder()
                 .userName(request.getUserName())
                 .mobileNumber(request.getPhoneNumber())
                 .appPassword(MakingPasswordHash.makingPasswordHash(request.getAppPassword()))
-                .deviceId(request.getDeviceId())
                 .fcmToken(request.getFcmToken())
                 .deviceType(request.getDeviceType())
                 .status(true)
@@ -62,6 +61,7 @@ public class UserService {
             appUserResponse.setStatus(appUser.getStatus());
             appUserResponse.setAuthorizationToken(jwtTokenService.generateJwtTokenWithInfo("User",appUser.getId(),appUser.getUserName(),appUser.getMobileNumber(),appUser.getStatus()));
             response.setAuthResponse(appUserResponse);
+            appUser.setDeviceType(request.getDeviceType());
             appUser.setLastLoginAt(new Date(System.currentTimeMillis()));
             userRepository.save(appUser);
         }else {

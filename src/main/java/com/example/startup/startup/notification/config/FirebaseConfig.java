@@ -19,16 +19,13 @@ public class FirebaseConfig {
     @Bean
     public FirebaseApp initializeFirebaseApp() throws IOException {
         GoogleCredentials googleCredentials = GoogleCredentials.fromStream(new ClassPathResource(firebaseConfigPath).getInputStream());
-        FirebaseOptions options = new FirebaseOptions.Builder()
+        FirebaseOptions options = FirebaseOptions.builder()
                 .setCredentials(googleCredentials)
                 .build();
         if(FirebaseApp.getApps().isEmpty()) {
             return FirebaseApp.initializeApp(options,"StartUp");
         }else {
-            //return FirebaseApp.getApps().get(0);//if we dont give any name ,then it will take a default firebase
-            //name then we can take arrays first one
             return FirebaseApp.getInstance("StartUp");
-            //when we give a name then we can get
         }
     }
 }

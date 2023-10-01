@@ -23,7 +23,6 @@ public class AppUser{
     private String userName;
     private String mobileNumber;
     private String appPassword;
-    private String deviceId;
     private String fcmToken;
     private DeviceType deviceType;
     private Boolean status;

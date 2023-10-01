@@ -1,4 +1,4 @@
-package com.example.startup.startup.auth.appUser.dto.request;
+package com.example.startup.startup.auth.appUser.request;
 
 import com.example.startup.startup.globalEnums.DeviceType;
 import jakarta.validation.constraints.*;
@@ -18,7 +18,6 @@ public class AppUserRegisterRequest {
     @NotEmpty(message = "Password can not be empty.")
     @Size(min = 4,message = "Password must be contains 4 character.")
     private String appPassword;
-    private String deviceId;
     @NotNull(message = "FCM token required.")
     @NotEmpty(message = "FCM token can not be empty.")
     private String fcmToken;

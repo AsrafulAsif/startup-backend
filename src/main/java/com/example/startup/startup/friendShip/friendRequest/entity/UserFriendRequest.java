@@ -1,4 +1,4 @@
-package com.example.startup.startup.friend.entity;
+package com.example.startup.startup.friendShip.friendRequest.entity;
 
 import com.example.startup.startup.globalEnums.FriendRequestStatus;
 import lombok.AllArgsConstructor;
@@ -15,11 +15,12 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(value = "user-friend-request")
-public class UserRequestFriend {
+public class UserFriendRequest {
     @Id
     private String id;
     private String fromUserId;
     private String toUserId;
-    private Date sendingRequestDate;
     private FriendRequestStatus status;
+    private Date sendingRequestDate;
+    private Date acceptedRequestDate;
 }

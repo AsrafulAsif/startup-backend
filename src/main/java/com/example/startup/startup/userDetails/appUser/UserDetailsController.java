@@ -2,9 +2,9 @@ package com.example.startup.startup.userDetails.appUser;
 
 
 import com.example.startup.startup.springSecurity.CustomUserDetails;
-import com.example.startup.startup.userDetails.appUser.dto.request.AddUserDetailsRequest;
-import com.example.startup.startup.userDetails.appUser.dto.request.UpdateUserDetailsRequest;
-import com.example.startup.startup.userDetails.appUser.dto.response.AppUserDetailsResponseRest;
+import com.example.startup.startup.userDetails.appUser.request.AddUserDetailsRequest;
+import com.example.startup.startup.userDetails.appUser.request.UpdateUserDetailsRequest;
+import com.example.startup.startup.userDetails.appUser.response.AppUserDetailsResponseRest;
 import com.example.startup.startup.model.SimpleResponseRest;
 import com.example.startup.startup.utils.MakingResponse;
 import io.swagger.v3.oas.annotations.Operation;

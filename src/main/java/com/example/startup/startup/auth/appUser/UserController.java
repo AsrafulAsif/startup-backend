@@ -1,8 +1,8 @@
 package com.example.startup.startup.auth.appUser;
 
-import com.example.startup.startup.auth.appUser.dto.request.AppUserLoginRequest;
-import com.example.startup.startup.auth.appUser.dto.request.AppUserRegisterRequest;
-import com.example.startup.startup.auth.appUser.dto.response.AppUserResponseRest;
+import com.example.startup.startup.auth.appUser.request.AppUserLoginRequest;
+import com.example.startup.startup.auth.appUser.request.AppUserRegisterRequest;
+import com.example.startup.startup.auth.appUser.response.AppUserResponseRest;
 import com.example.startup.startup.model.SimpleResponseRest;
 import com.example.startup.startup.utils.MakingResponse;
 import io.swagger.v3.oas.annotations.Operation;
