@@ -5,7 +5,6 @@ import com.example.startup.startup.exception.BadRequestException;
 import com.example.startup.startup.exception.UnAuthorizeException;
 import com.example.startup.startup.auth.appUser.request.AppUserLoginRequest;
 import com.example.startup.startup.auth.appUser.request.AppUserRegisterRequest;
-import com.example.startup.startup.auth.appUser.response.AppUserResponse;
 import com.example.startup.startup.auth.appUser.response.AppUserResponseRest;
 import com.example.startup.startup.springSecurity.service.JwtTokenService;
 import com.example.startup.startup.utils.MakingPasswordHash;
@@ -40,12 +39,12 @@ public class AppUserService {
                 .createdAt(new Date(System.currentTimeMillis()))
                 .build();
         appUserRepository.save(appUser);
-        AppUserResponse appUserResponse = new AppUserResponse();
+        AppUserResponseRest response = new AppUserResponseRest();
+        AppUserResponseRest.AppUserResponse appUserResponse = response. new AppUserResponse();
         appUserResponse.setUserName(appUser.getUserName());
         appUserResponse.setStatus(true);
         appUserResponse.setAuthorizationToken(jwtTokenService.generateJwtTokenWithInfo("User",appUser.getId(),appUser.getUserName(),appUser.getMobileNumber(),true));
 
-        AppUserResponseRest response = new AppUserResponseRest();
         response.setAuthResponse(appUserResponse);
         return response;
     }
@@ -56,7 +55,7 @@ public class AppUserService {
         if (appUser==null) throw new BadRequestException("You don't have an account.");
         AppUserResponseRest response = new AppUserResponseRest();
         if (BCrypt.checkpw(request.getAppPassword(),appUser.getAppPassword())){
-            AppUserResponse appUserResponse = new AppUserResponse();
+            AppUserResponseRest.AppUserResponse appUserResponse = response.new AppUserResponse();
             appUserResponse.setUserName(appUser.getUserName());
             appUserResponse.setStatus(appUser.getStatus());
             appUserResponse.setAuthorizationToken(jwtTokenService.generateJwtTokenWithInfo("User",appUser.getId(),appUser.getUserName(),appUser.getMobileNumber(),appUser.getStatus()));

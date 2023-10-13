@@ -1,13 +1,12 @@
 package com.example.startup.startup.fileSystem.response;
 
 import com.example.startup.startup.model.SimpleResponseRest;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 
 @Data
 @EqualsAndHashCode(callSuper = true)
+@Builder
 public class ImageUrlResponseRest extends SimpleResponseRest {
     private ImageUrlResponse imageUrlResponse;
     @Data

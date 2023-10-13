@@ -67,9 +67,12 @@ public class FirebaseStorageService {
 
             File file = this.convertToFile(multipartFile, fileName);
             String url = this.upload(file, fileName);
-            ImageUrlResponseRest responseRest = new ImageUrlResponseRest();
-            ImageUrlResponseRest.ImageUrlResponse data = ImageUrlResponseRest.ImageUrlResponse.builder().imageUrl(url).build();
-            responseRest.setImageUrlResponse(data);
-            return  responseRest;
+        //            ImageUrlResponseRest.ImageUrlResponse data = ImageUrlResponseRest.ImageUrlResponse.builder().imageUrl(url).build();
+//            responseRest.setImageUrlResponse(data);
+            return ImageUrlResponseRest.builder()
+                    .imageUrlResponse(ImageUrlResponseRest.ImageUrlResponse.builder()
+                            .imageUrl(url)
+                            .build())
+                    .build();
         }
 }
