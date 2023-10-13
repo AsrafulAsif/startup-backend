@@ -2,15 +2,14 @@ package com.example.startup.startup.userDetails.appUser;
 
 
 import com.example.startup.startup.springSecurity.CustomUserDetails;
-import com.example.startup.startup.userDetails.appUser.request.AddUserDetailsRequest;
-import com.example.startup.startup.userDetails.appUser.request.UpdateUserDetailsRequest;
+import com.example.startup.startup.userDetails.appUser.request.AddAppUserDetailsRequest;
+import com.example.startup.startup.userDetails.appUser.request.UpdateAppUserDetailsRequest;
 import com.example.startup.startup.userDetails.appUser.response.AppUserDetailsResponseRest;
 import com.example.startup.startup.model.SimpleResponseRest;
 import com.example.startup.startup.utils.MakingResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,14 +17,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/user-details")
-public class UserDetailsController {
+public class AppUserDetailsController {
 
-    private final UserDetailsService userDetailsService;
+    private final AppUserDetailsService appUserDetailsService;
 
-
-    @Autowired
-    public UserDetailsController(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
+    public AppUserDetailsController(AppUserDetailsService appUserDetailsService) {
+        this.appUserDetailsService = appUserDetailsService;
     }
 
     @PreAuthorize("@permissionService.hasPermission()")
@@ -33,10 +30,10 @@ public class UserDetailsController {
     @Operation(summary = "Need Bearer Token." ,security = @SecurityRequirement(name = "Authorization"))
     ResponseEntity<SimpleResponseRest> addProfile(
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @Valid @RequestBody AddUserDetailsRequest request
+            @Valid @RequestBody AddAppUserDetailsRequest request
     ){
         SimpleResponseRest response = new SimpleResponseRest();
-        userDetailsService.addUserDetails(request,userDetails);
+        appUserDetailsService.addUserDetails(request,userDetails);
         return MakingResponse.makingResponse(response);
     }
 
@@ -45,10 +42,10 @@ public class UserDetailsController {
     @Operation(summary = "Need Bearer Token." ,security = @SecurityRequirement(name = "Authorization"))
     ResponseEntity<SimpleResponseRest> updateProfile(
             @AuthenticationPrincipal CustomUserDetails userDetails,
-            @Valid @RequestBody UpdateUserDetailsRequest request
+            @Valid @RequestBody UpdateAppUserDetailsRequest request
     ){
         SimpleResponseRest response = new SimpleResponseRest();
-        userDetailsService.updateUserDetails(request,userDetails);
+        appUserDetailsService.updateUserDetails(request,userDetails);
         return MakingResponse.makingResponse(response);
     }
 
@@ -58,7 +55,7 @@ public class UserDetailsController {
     ResponseEntity<SimpleResponseRest> getProfile(
             @AuthenticationPrincipal CustomUserDetails userDetails
     ){
-        AppUserDetailsResponseRest response = userDetailsService.getUserDetails(userDetails);
+        AppUserDetailsResponseRest response = appUserDetailsService.getUserDetails(userDetails);
         return MakingResponse.makingResponse(response);
     }
 }

@@ -36,6 +36,8 @@ public class SecurityConfig {
                         .permitAll()
                         .requestMatchers("api/v1/notification/**")
                         .permitAll()
+                        .requestMatchers("api/v1/image-file/**")
+                        .permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling((exceptionHandling) ->

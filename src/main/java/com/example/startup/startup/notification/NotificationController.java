@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class NotificationController {
     private final FirebaseMessagingService firebaseMessagingService;
 
-    @Autowired
     public NotificationController(FirebaseMessagingService firebaseMessagingService) {
         this.firebaseMessagingService = firebaseMessagingService;
     }

@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class AddUserDetailsRequest {
+public class AddAppUserDetailsRequest {
     @NotNull(message = "Full name required.")
     @NotEmpty(message = "Full name can not be empty.")
     private String fullName;

@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class UpdateUserDetailsRequest {
+public class UpdateAppUserDetailsRequest {
     @NotNull(message = "Id can not be null")
     @NotEmpty(message ="Please provide Id.")
     private String id;

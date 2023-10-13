@@ -1,13 +1,13 @@
 package com.example.startup.startup.userDetails.appUser;
 
 
-import com.example.startup.startup.auth.appUser.UserService;
+import com.example.startup.startup.auth.appUser.AppUserService;
 import com.example.startup.startup.springSecurity.CustomUserDetails;
 import com.example.startup.startup.auth.appUser.entity.AppUser;
 import com.example.startup.startup.userDetails.appUser.entity.AppUserDetails;
 import com.example.startup.startup.exception.BadRequestException;
-import com.example.startup.startup.userDetails.appUser.request.AddUserDetailsRequest;
-import com.example.startup.startup.userDetails.appUser.request.UpdateUserDetailsRequest;
+import com.example.startup.startup.userDetails.appUser.request.AddAppUserDetailsRequest;
+import com.example.startup.startup.userDetails.appUser.request.UpdateAppUserDetailsRequest;
 import com.example.startup.startup.userDetails.appUser.response.AppUserDetailsResponse;
 import com.example.startup.startup.userDetails.appUser.response.AppUserDetailsResponseRest;
 import com.example.startup.startup.utils.ConvertingClass;
@@ -17,19 +17,18 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 
 @Service
-public class UserDetailsService {
-    private final UserService userService;
-    private final UserDetailsRepository userDetailsRepository;
+public class AppUserDetailsService {
+    private final AppUserService appUserService;
+    private final AppUserDetailsRepository userDetailsRepository;
 
-    @Autowired
-    public UserDetailsService(UserService userService, UserDetailsRepository userDetailsRepository) {
-        this.userService = userService;
+    public AppUserDetailsService(AppUserService appUserService, AppUserDetailsRepository userDetailsRepository) {
+        this.appUserService = appUserService;
         this.userDetailsRepository = userDetailsRepository;
     }
 
 
-    public void addUserDetails(AddUserDetailsRequest request, CustomUserDetails appUser) {
-        AppUser checkUser = userService.findById(appUser.getId());
+    public void addUserDetails(AddAppUserDetailsRequest request, CustomUserDetails appUser) {
+        AppUser checkUser = appUserService.findById(appUser.getId());
         AppUserDetails appUserDetails = userDetailsRepository.findByAppUserId(appUser.getId());
         if (appUserDetails != null) throw new BadRequestException("You already added your profile details.");
         appUserDetails = AppUserDetails.builder()
@@ -47,7 +46,7 @@ public class UserDetailsService {
         userDetailsRepository.save(appUserDetails);
     }
 
-    public void updateUserDetails(UpdateUserDetailsRequest request, CustomUserDetails appUser) {
+    public void updateUserDetails(UpdateAppUserDetailsRequest request, CustomUserDetails appUser) {
         AppUserDetails appUserDetails = userDetailsRepository
                 .findByIdAndAppUserId(request.getId(), appUser.getId());
 

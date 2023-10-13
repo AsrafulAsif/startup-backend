@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/v1/user")
-public class UserController {
+public class AppUserController {
 
-    private final UserService userService;
+    private final AppUserService appUserService;
 
     @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public AppUserController(AppUserService appUserService) {
+        this.appUserService = appUserService;
     }
 
     @PostMapping("/register")
@@ -30,7 +30,7 @@ public class UserController {
     ResponseEntity<SimpleResponseRest> registerAppUser(
             @Valid @RequestBody AppUserRegisterRequest request
     ) {
-        AppUserResponseRest response = userService.registerAppUser(request);
+        AppUserResponseRest response = appUserService.registerAppUser(request);
         return MakingResponse.makingResponse(response);
     }
 
@@ -39,7 +39,7 @@ public class UserController {
     ResponseEntity<SimpleResponseRest> loginAppUser(
             @Valid @RequestBody AppUserLoginRequest request
     ) {
-        AppUserResponseRest response = userService.logInAppUser(request);
+        AppUserResponseRest response = appUserService.logInAppUser(request);
         return MakingResponse.makingResponse(response);
     }
 

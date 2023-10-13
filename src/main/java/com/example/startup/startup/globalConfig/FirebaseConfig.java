@@ -1,4 +1,4 @@
-package com.example.startup.startup.notification.config;
+package com.example.startup.startup.globalConfig;
 
 
 import com.google.auth.oauth2.GoogleCredentials;
@@ -16,11 +16,16 @@ public class FirebaseConfig {
     @Value("${app.firebase-configuration-file}")
     private String firebaseConfigPath;
 
+    @Value("${app.firebase-storage-bucket}")
+    private String firebaseStorageBucket;
+
+
     @Bean
     public FirebaseApp initializeFirebaseApp() throws IOException {
         GoogleCredentials googleCredentials = GoogleCredentials.fromStream(new ClassPathResource(firebaseConfigPath).getInputStream());
         FirebaseOptions options = FirebaseOptions.builder()
                 .setCredentials(googleCredentials)
+                .setStorageBucket(firebaseStorageBucket)
                 .build();
         if(FirebaseApp.getApps().isEmpty()) {
             return FirebaseApp.initializeApp(options,"StartUp");

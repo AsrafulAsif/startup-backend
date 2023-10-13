@@ -17,17 +17,17 @@ import java.util.Date;
 
 
 @Service
-public class UserService {
-    private final UserRepository userRepository;
+public class AppUserService {
+    private final AppUserRepository appUserRepository;
     private final JwtTokenService jwtTokenService;
     @Autowired
-    public UserService(UserRepository userRepository, JwtTokenService jwtTokenService) {
-        this.userRepository = userRepository;
+    public AppUserService(AppUserRepository appUserRepository, JwtTokenService jwtTokenService) {
+        this.appUserRepository = appUserRepository;
         this.jwtTokenService = jwtTokenService;
     }
 
     public AppUserResponseRest registerAppUser(AppUserRegisterRequest request){
-        AppUser appUser =  userRepository.findByMobileNumber(request.getPhoneNumber());
+        AppUser appUser =  appUserRepository.findByMobileNumber(request.getPhoneNumber());
         if (appUser!=null) throw new BadRequestException("You already have an account.");
 
         appUser = AppUser.builder()
@@ -39,7 +39,7 @@ public class UserService {
                 .status(true)
                 .createdAt(new Date(System.currentTimeMillis()))
                 .build();
-        userRepository.save(appUser);
+        appUserRepository.save(appUser);
         AppUserResponse appUserResponse = new AppUserResponse();
         appUserResponse.setUserName(appUser.getUserName());
         appUserResponse.setStatus(true);
@@ -52,7 +52,7 @@ public class UserService {
 
 
     public AppUserResponseRest logInAppUser(AppUserLoginRequest request){
-        AppUser appUser =  userRepository.findByMobileNumber(request.getMobileNumber());
+        AppUser appUser =  appUserRepository.findByMobileNumber(request.getMobileNumber());
         if (appUser==null) throw new BadRequestException("You don't have an account.");
         AppUserResponseRest response = new AppUserResponseRest();
         if (BCrypt.checkpw(request.getAppPassword(),appUser.getAppPassword())){
@@ -63,7 +63,7 @@ public class UserService {
             response.setAuthResponse(appUserResponse);
             appUser.setDeviceType(request.getDeviceType());
             appUser.setLastLoginAt(new Date(System.currentTimeMillis()));
-            userRepository.save(appUser);
+            appUserRepository.save(appUser);
         }else {
             throw new UnAuthorizeException("Password mismatch");
         }
@@ -71,6 +71,6 @@ public class UserService {
     }
 
     public AppUser findById(String appUserId){
-        return userRepository.findById(appUserId).orElseThrow(()->new BadRequestException("User not found."));
+        return appUserRepository.findById(appUserId).orElseThrow(()->new BadRequestException("User not found."));
     }
 }
