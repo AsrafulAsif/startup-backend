@@ -8,4 +8,6 @@ public class SingleUserNotificationRequest {
     private String notificationTitle;
     private String notificationBody;
     private String notificationImageUrl;
+    private String channelId;
+    private String type;
 }

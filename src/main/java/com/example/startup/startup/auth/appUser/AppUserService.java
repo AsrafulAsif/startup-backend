@@ -1,6 +1,7 @@
 package com.example.startup.startup.auth.appUser;
 
 import com.example.startup.startup.auth.appUser.entity.AppUser;
+import com.example.startup.startup.auth.appUser.response.AppUserListResponseRest;
 import com.example.startup.startup.exception.BadRequestException;
 import com.example.startup.startup.exception.UnAuthorizeException;
 import com.example.startup.startup.auth.appUser.request.AppUserLoginRequest;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 
 @Service
@@ -71,5 +73,13 @@ public class AppUserService {
 
     public AppUser findById(String appUserId){
         return appUserRepository.findById(appUserId).orElseThrow(()->new BadRequestException("User not found."));
+    }
+
+
+    public AppUserListResponseRest getAllAppUser(){
+        List<AppUserListResponseRest.AppUserDto> appUserList = appUserRepository.findAllByOrderByCreatedAtDesc();
+        AppUserListResponseRest response = new AppUserListResponseRest();
+        response.setAppUserList(appUserList);
+        return response;
     }
 }

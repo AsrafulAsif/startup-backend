@@ -13,7 +13,5 @@ public class AppUserLoginRequest {
     @NotNull(message = "Password required.")
     @NotEmpty(message = "Password can not be empty.")
     private String appPassword;
-    @NotNull(message = "Device Type(Android/IOS) required.")
-    @NotEmpty(message = "Device Type can not be empty.")
     private DeviceType deviceType;
 }
