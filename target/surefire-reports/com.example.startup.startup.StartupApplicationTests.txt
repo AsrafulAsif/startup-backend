@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.example.startup.startup.StartupApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.382 s - in com.example.startup.startup.StartupApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.355 s - in com.example.startup.startup.StartupApplicationTests
