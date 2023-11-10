@@ -19,9 +19,13 @@ public class FirebaseMessagingService {
         Notification notification = this.makingNotification(request.getNotificationTitle(), request.getNotificationBody(), request.getNotificationImageUrl());
         AndroidConfig androidConfig = this.makingAndroidConfig(request.getChannelId());
         Map<String, String> data = new HashMap<>();
-        if (request.getType()!=null){
-            data.put("type", request.getType());
+        if (request.getRoute()!=null){
+            data.put("route", request.getRoute());
         }
+        if (request.getMusic()!=null){
+            data.put("music", request.getMusic());
+        }
+
 
         Message message = Message.builder()
                 .setToken(request.getFcmToken())
@@ -30,6 +34,7 @@ public class FirebaseMessagingService {
                 .setAndroidConfig(androidConfig)
                 .build();
             FirebaseMessaging.getInstance(FirebaseApp.getInstance("StartUp")).sendAsync(message);
+            log.info("Notification sent.");
     }
 
     private Notification makingNotification(String title, String body,String image) {

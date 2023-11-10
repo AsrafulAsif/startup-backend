@@ -1,5 +1,6 @@
 package com.example.startup.startup.fileSystem;
 
+import com.example.startup.startup.fileSystem.response.ImageUrlListResponseRest;
 import com.example.startup.startup.fileSystem.response.ImageUrlResponseRest;
 import com.google.cloud.storage.*;
 import com.google.firebase.FirebaseApp;
@@ -13,6 +14,8 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -28,6 +31,14 @@ public class FirebaseStorageService {
         BlobId blobId = BlobId.of(bucket.getName(), fileNameWithFolder);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
         Storage storage = bucket.getStorage();
+
+        Iterable<Blob> blobs = storage.list(bucket.getName(), Storage.BlobListOption.prefix("images/")).iterateAll();
+
+        for (Blob blob : blobs) {
+            if (!blob.getName().equals("images/")) {
+                System.out.println(blob.getName());
+            }
+        }
 
         try {
             storage.create(blobInfo, Files.readAllBytes(file.toPath()));
@@ -74,5 +85,25 @@ public class FirebaseStorageService {
                             .imageUrl(url)
                             .build())
                     .build();
+        }
+
+        public ImageUrlListResponseRest getAllImages(){
+            List<ImageUrlResponseRest.ImageUrlResponse> imageUrls = new ArrayList<>();
+            Bucket bucket = StorageClient.getInstance(FirebaseApp.getInstance("StartUp")).bucket();
+            Iterable<Blob> blobs = bucket.getStorage().list(bucket.getName(), Storage.BlobListOption.prefix("images/")).iterateAll();
+
+            for (Blob blob : blobs) {
+                if (!blob.getName().equals("images/")) {
+                    ImageUrlResponseRest.ImageUrlResponse url = new ImageUrlResponseRest.ImageUrlResponse();
+                    url.setImageUrl(String.format(DOWNLOAD_URL, URLEncoder.encode(blob.getName(), StandardCharsets.UTF_8)));
+//                    ImageUrlResponseRest.ImageUrlResponse url = ImageUrlResponseRest.ImageUrlResponse.builder()
+//                            .imageUrl(String.format(DOWNLOAD_URL, URLEncoder.encode("images/"+blob.getName(), StandardCharsets.UTF_8))).build();
+                    imageUrls.add(url);
+                }
+            }
+
+            ImageUrlListResponseRest response = new ImageUrlListResponseRest();
+            response.setImageUrlList(imageUrls);
+            return response;
         }
 }

@@ -9,5 +9,6 @@ public class SingleUserNotificationRequest {
     private String notificationBody;
     private String notificationImageUrl;
     private String channelId;
-    private String type;
+    private String route;
+    private String music;
 }

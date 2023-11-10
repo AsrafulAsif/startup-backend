@@ -11,6 +11,8 @@ public class ImageUrlResponseRest extends SimpleResponseRest {
     private ImageUrlResponse imageUrlResponse;
     @Data
     @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
     static
     public class ImageUrlResponse{
          private String imageUrl;

@@ -1,4 +1,4 @@
-package com.example.startup.startup.friendShip.friendRequest.dto.request;
+package com.example.startup.startup.friendShip.friendRequest.request;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
