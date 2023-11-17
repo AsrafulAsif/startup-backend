@@ -4,6 +4,8 @@ import com.example.startup.startup.globalEnums.DeviceType;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class AppUserRegisterRequest {
     @NotNull(message = "User name required.")

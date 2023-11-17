@@ -14,4 +14,5 @@ public class AppUserLoginRequest {
     @NotEmpty(message = "Password can not be empty.")
     private String appPassword;
     private DeviceType deviceType;
+    private String fcmToken;
 }

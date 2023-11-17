@@ -2,6 +2,7 @@ package com.example.startup.startup.auth.appUser;
 
 import com.example.startup.startup.auth.appUser.entity.AppUser;
 import com.example.startup.startup.auth.appUser.response.AppUserListResponseRest;
+import com.example.startup.startup.exception.AccessForbiddenException;
 import com.example.startup.startup.exception.BadRequestException;
 import com.example.startup.startup.exception.UnAuthorizeException;
 import com.example.startup.startup.auth.appUser.request.AppUserLoginRequest;
@@ -55,6 +56,7 @@ public class AppUserService {
     public AppUserResponseRest logInAppUser(AppUserLoginRequest request){
         AppUser appUser =  appUserRepository.findByMobileNumber(request.getMobileNumber());
         if (appUser==null) throw new BadRequestException("You don't have an account.");
+        if (!appUser.getStatus()) throw new UnAuthorizeException("You don't have any access.");
         AppUserResponseRest response = new AppUserResponseRest();
         if (BCrypt.checkpw(request.getAppPassword(),appUser.getAppPassword())){
             AppUserResponseRest.AppUserResponse appUserResponse = response.new AppUserResponse();
@@ -63,6 +65,7 @@ public class AppUserService {
             appUserResponse.setAuthorizationToken(jwtTokenService.generateJwtTokenWithInfo("User",appUser.getId(),appUser.getUserName(),appUser.getMobileNumber(),appUser.getStatus()));
             response.setAuthResponse(appUserResponse);
             appUser.setDeviceType(request.getDeviceType());
+            appUser.setFcmToken(request.getFcmToken());
             appUser.setLastLoginAt(new Date(System.currentTimeMillis()));
             appUserRepository.save(appUser);
         }else {
