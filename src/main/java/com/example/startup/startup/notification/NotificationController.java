@@ -1,10 +1,9 @@
 package com.example.startup.startup.notification;
 
 import com.example.startup.startup.model.SimpleResponseRest;
-import com.example.startup.startup.notification.dto.request.SingleUserNotificationRequest;
+import com.example.startup.startup.notification.request.SingleUserNotificationRequest;
 import com.example.startup.startup.notification.service.FirebaseMessagingService;
 import com.example.startup.startup.utils.MakingResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

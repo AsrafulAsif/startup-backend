@@ -1,13 +1,12 @@
 package com.example.startup.startup.notification.service;
 
 
-import com.example.startup.startup.notification.dto.request.SingleUserNotificationRequest;
+import com.example.startup.startup.notification.request.SingleUserNotificationRequest;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.messaging.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 

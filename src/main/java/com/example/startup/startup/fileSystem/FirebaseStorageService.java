@@ -14,8 +14,10 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 @Slf4j
@@ -70,10 +72,10 @@ public class FirebaseStorageService {
 
     public ImageUrlResponseRest uploadImage(MultipartFile multipartFile,String appUserId) {
 
-
             String fileName = multipartFile.getOriginalFilename();
             if (fileName!=null){
-                fileName = appUserId.concat(this.getExtension(fileName));
+                LocalDate now = LocalDate.now();
+                fileName = now.toString().concat(this.getExtension(fileName));
             }
 
             File file = this.convertToFile(multipartFile, fileName);
@@ -106,4 +108,15 @@ public class FirebaseStorageService {
             response.setImageUrlList(imageUrls);
             return response;
         }
+
+
+    public void deleteAFile(String fileName){
+        String folderName = "images";
+        String fileNameWithFolder = folderName + "/" + fileName;
+        Bucket bucket = StorageClient.getInstance(FirebaseApp.getInstance("StartUp")).bucket();
+        Storage storage = bucket.getStorage();
+        BlobId blobId = BlobId.of(bucket.getName(), fileNameWithFolder);
+        boolean deleted = storage.delete(blobId);
+        if (!deleted) throw new RuntimeException("Could not delete the file.");
+    }
 }

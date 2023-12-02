@@ -1,4 +1,4 @@
-package com.example.startup.startup.notification.dto.request;
+package com.example.startup.startup.notification.request;
 
 import lombok.Data;
 

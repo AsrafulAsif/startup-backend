@@ -34,4 +34,12 @@ public class ImageUploadController {
         ImageUrlListResponseRest response = firebaseStorageService.getAllImages();
         return MakingResponse.makingResponse(response);
     }
+
+    @DeleteMapping()
+    public ResponseEntity<SimpleResponseRest> deleteAFile(
+            @RequestParam(value = "fileName") String fileName
+    ){
+        firebaseStorageService.deleteAFile(fileName);
+        return MakingResponse.makingResponse(new SimpleResponseRest());
+    }
 }
