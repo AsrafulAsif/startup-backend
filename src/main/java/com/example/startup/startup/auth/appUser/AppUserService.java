@@ -2,7 +2,6 @@ package com.example.startup.startup.auth.appUser;
 
 import com.example.startup.startup.auth.appUser.entity.AppUser;
 import com.example.startup.startup.auth.appUser.response.AppUserListResponseRest;
-import com.example.startup.startup.exception.AccessForbiddenException;
 import com.example.startup.startup.exception.BadRequestException;
 import com.example.startup.startup.exception.UnAuthorizeException;
 import com.example.startup.startup.auth.appUser.request.AppUserLoginRequest;
